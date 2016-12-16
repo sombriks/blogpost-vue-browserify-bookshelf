@@ -19,8 +19,8 @@
           <td colspan="2">Nenum evento encontrado</td>
         </tr>
         <tr v-for="evt in listaeventos" @click="sel(evt)">
-          <td>{{ev.idevento}}</td>
-          <td>{{ev.nomeevento}}</td>          
+          <td>{{evt.idevento}}</td>
+          <td>{{evt.nomeevento}}</td>
         </tr>
       </tbody>
     </table>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  const Vue = require("vue");
   const api = require("./serviceapi");
   const eventos = {
     name: "Eventos",
@@ -37,7 +38,7 @@
     data() {
       return {
         detalheevento: {
-          idevento: 0,
+          idevento: null,
           nomeevento: ""
         },
         listaeventos: []
@@ -45,16 +46,21 @@
     },
     methods: {
       list() {
-        api.eventos.list().then(ret =>
-          this.listaeventos = ret.data);
+        api.eventos.list().then(ret => {
+          Vue.set(this, "listaeventos", ret.data)
+        });
       },
       save() {
-        api.eventos.save(this.detalheevento).then(ret =>
-          this.detalheevento = { idevento: 0, nomeevento: "" });
+        api.eventos.save(this.detalheevento).then(ret => {
+          this.detalheevento = { idevento: 0, nomeevento: "" }
+          this.list();
+        });
       },
       del() {
-        ali.eventos.del(this.detalheevento.idevento).then(ret =>
-          this.detalheevento = { idevento: 0, nomeevento: "" });
+        api.eventos.del(this.detalheevento.idevento).then(ret => {
+          this.detalheevento = { idevento: 0, nomeevento: "" }
+          this.list();
+        });
       },
       sel(ev) {
         this.detalheevento = ev;
@@ -67,5 +73,8 @@
 <style scoped>
   table{
     width:100%;
+  }
+  th{
+    text-align: left;
   }
 </style>

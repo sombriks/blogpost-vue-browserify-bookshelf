@@ -1,4 +1,4 @@
-const app = require("./lib/main");
+const main = require("./lib/main");
 
-app.start();
+main.startup();
 

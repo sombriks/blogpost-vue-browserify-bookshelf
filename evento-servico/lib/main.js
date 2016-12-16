@@ -2,12 +2,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const knex = require("./config").knex;
+const knex = require("./dbconfig").knex;
 
 const app = express()
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Headers",
+    "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   next();
 })
 
@@ -21,13 +24,15 @@ app.use(bodyParser.raw({
 
 // TODO wire routes
 
+app.use("/evento", require("./evento").router);
+
 exports.startup = () => {
   console.log("starting migration subsystem");
   knex.migrate.latest().then(() => {
     console.log("migration done!");
-    let port = 3000 
+    let port = 3000
     console.log("listening at port %s", port);
-    server.listen(port);
+    app.listen(port);
   });
 }
 
