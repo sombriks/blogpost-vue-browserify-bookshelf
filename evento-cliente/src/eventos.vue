@@ -20,7 +20,7 @@
         </tr>
         <tr v-for="evt in listaeventos" @click="sel(evt)">
           <td>{{evt.idevento}}</td>
-          <td>{{evt.nomeevento}}</td>
+          <td>{{evt.nomeevento}} {{x}}</td>
         </tr>
       </tbody>
     </table>
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-  const Vue = require("vue");
   const api = require("./serviceapi");
   const eventos = {
     name: "Eventos",
@@ -47,7 +46,8 @@
     methods: {
       list() {
         api.eventos.list().then(ret => {
-          Vue.set(this, "listaeventos", ret.data)
+          // Vue.set(this, "listaeventos", ret.data)
+          this.listaeventos = ret.data;
         });
       },
       save() {
