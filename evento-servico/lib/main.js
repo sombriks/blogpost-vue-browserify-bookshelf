@@ -25,12 +25,14 @@ app.use(bodyParser.raw({
 // TODO wire routes
 
 app.use("/evento", require("./evento").router);
+app.use("/pessoa", require("./pessoa").router);
+app.use("/participante", require("./participante").router);
 
 exports.startup = () => {
   console.log("starting migration subsystem");
   knex.migrate.latest().then(() => {
     console.log("migration done!");
-    let port = 3000
+    let port = 3000;
     console.log("listening at port %s", port);
     app.listen(port);
   });

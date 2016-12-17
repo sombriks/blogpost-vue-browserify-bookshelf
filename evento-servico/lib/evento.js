@@ -19,10 +19,9 @@ router.put("/save", (req, res) =>
   Evento.forge({ idevento: req.body.idevento })
     .save(req.body).then((ret) => res.send(ret)));
 
-router.delete("/:idevento", (req, res) => {
+router.delete("/:idevento", (req, res) => 
   Evento.forge({ idevento: req.params.idevento })
-    .destroy().then(() => res.send("OK"));
-});
+    .destroy().then(() => res.send("OK")));
 
 exports.Evento = Evento;
 exports.router = router;
